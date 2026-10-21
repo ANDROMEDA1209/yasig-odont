@@ -1,0 +1,12 @@
+/.env
+/vendor/
+/node_modules/
+/storage/*
+!/storage/.gitkeep
+/public/uploads/*
+!/public/uploads/.htaccess
+!/public/uploads/.gitkeep
+/tests/.runtime/
+*.log
+.DS_Store
+Thumbs.db

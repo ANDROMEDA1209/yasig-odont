@@ -1,0 +1,13 @@
+/* Requiredness follows each control's actual required attribute. */
+.field-label-text{line-height:1.5}
+.required-indicator{color:#b42336;font-weight:800;white-space:pre;line-height:1;flex:0 0 auto}
+.required-legend{grid-column:1/-1;width:100%;margin:0 0 4px;font-size:13px;line-height:1.6;font-weight:500;color:#52667b}
+.field-error{display:block;grid-column:1/-1;width:100%;margin:7px 0 0;padding:8px 10px;border-left:3px solid #bb3045;border-radius:0 6px 6px 0;background:#fff0f2;color:#942238;font-size:13px;line-height:1.5;font-weight:600;letter-spacing:normal;text-transform:none;white-space:normal}
+.field-error:before{content:'!';display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-right:6px;border:1.5px solid currentColor;border-radius:50%;font-size:11px;font-weight:800}
+input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true]{border:2px solid #bb3045;background-color:#fffafb;box-shadow:0 0 0 3px #bb30450a}
+input[aria-invalid=true]:focus,select[aria-invalid=true]:focus,textarea[aria-invalid=true]:focus{outline:2px solid #bb3045;outline-offset:2px}
+.checkbox.field-has-error,.orth-check.field-has-error{flex-wrap:wrap}
+.checkbox.field-has-error>.field-error,.orth-check.field-has-error>.field-error{flex-basis:100%}
+.password-wrap+.field-error{margin-top:8px}
+.filters>.required-legend,.orth-filter>.required-legend,.dashboard-filters .required-legend{flex-basis:100%;margin-bottom:0}
+@media print{.required-legend,.required-indicator,.field-error{display:none!important}}

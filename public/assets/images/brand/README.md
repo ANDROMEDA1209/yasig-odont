@@ -1,0 +1,1 @@
+Coloca aquí el logotipo oficial con el nombre `logo.png`. No se ha creado un logotipo alternativo. Sin ese archivo se muestra únicamente el nombre comercial en texto. El navegador conserva la proporción del original con `object-fit: contain`.

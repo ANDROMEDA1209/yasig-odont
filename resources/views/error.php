@@ -1,0 +1,1 @@
+<?php view('layouts/head',['title'=>$title]); ?><main class="error-page" id="main"><div class="eyebrow">YASIG ODONT</div><h1><?= e($title) ?></h1><p><?= e($message) ?></p><a class="button" href="<?= e(url('/')) ?>">Volver al inicio <?= icon('arrow') ?></a></main></body></html>

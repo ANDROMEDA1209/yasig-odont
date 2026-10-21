@@ -1,0 +1,710 @@
+/* Administrative workspace and access screens. Load after module styles.
+   Manrope is bundled locally in app.css; this layer makes no network requests. */
+:is(.app-layout,.auth-page){
+  --teal:#086973;--teal-2:#087c84;--green:#13714f;--wine:#a12e44;
+  --ink:#21394d;--muted:#4d6475;--line:#d7e3ec;--soft:#e8f4f5;
+  --bg:#edf3f8;--radius:16px;--ui-blue:#215a91;--ui-focus:#1a639d;
+  font-size:14px;font-weight:450;line-height:1.7;color:var(--ink);
+  accent-color:var(--teal);text-rendering:optimizeLegibility;
+}
+:is(.app-layout,.auth-page) :is(h1,h2,h3,h4){font-weight:700;letter-spacing:-.025em;line-height:1.35;color:var(--ink)}
+:is(.app-layout,.auth-page) :is(p,li){overflow-wrap:anywhere}
+:is(.app-layout,.auth-page) :is(small,.muted){color:var(--muted)}
+:is(.app-layout,.auth-page) small{font-size:13px;line-height:1.65}
+:is(.app-layout,.auth-page) strong{font-weight:650}
+:is(.app-layout,.auth-page) .eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;color:#38657b}
+:is(.app-layout,.auth-page) a:not(.button):hover{text-decoration-thickness:1px;text-underline-offset:3px}
+:is(.app-layout,.auth-page) :is(a,button,summary,input,select,textarea):focus-visible{
+  outline:3px solid var(--ui-focus);outline-offset:3px;
+}
+
+/* Clear workspace hierarchy without competing with clinical content. */
+.app-layout .app-main{background:linear-gradient(145deg,#eef4f9 0%,#f2f7fa 44%,#edf5f5 100%)}
+.app-layout .workspace{padding-top:32px;animation:ui-workspace-enter .22s ease-out}
+.app-layout .sidebar{
+  background:linear-gradient(180deg,#f9fcff 0%,#f4f9fc 58%,#edf5f8 100%);
+  border-right-color:#d3e1ea;box-shadow:3px 0 24px #173c5605;
+}
+.app-layout .sidebar>.brand{margin-bottom:32px;padding-bottom:22px;border-bottom:1px solid #d9e5ec;flex-shrink:0}
+.app-layout .sidebar-caption{font-size:10px;font-weight:700;color:#456679;letter-spacing:.1em}
+.app-layout .sidebar nav{gap:6px}
+.app-layout .sidebar nav>a{font-size:13px;font-weight:600;line-height:1.45;color:#425e74;min-height:44px;border:1px solid transparent;border-radius:10px}
+.app-layout .sidebar nav>a:hover{background:#e8f1f7;border-color:#d9e7ef;transform:none;color:#174f75}
+.app-layout .sidebar nav>a.active{
+  background:linear-gradient(110deg,#dceff2,#e8f2f8);color:#075f6a;
+  border-color:#b7d9e1;box-shadow:0 3px 9px #1a60730a;font-weight:700;
+}
+.app-layout .sidebar nav>a.active:before{height:26px;background:#12838c;width:4px}
+.app-layout .sidebar nav>a.active svg{color:#096c76}
+.app-layout .sidebar-bottom{padding-top:26px}
+.app-layout .external-link{font-size:13px;font-weight:600;color:#325f7c}
+.app-layout .sidebar-help{background:#e7f1f6;border:1px solid #d3e3ed;border-radius:12px;padding:16px 13px;gap:7px}
+.app-layout .sidebar-help strong{font-size:13px;color:#244a62}
+.app-layout .sidebar-help small{font-size:12px;color:#466277}
+.app-layout .app-header{background:#fffffff2;border-bottom-color:#d6e4ed;box-shadow:0 4px 18px #294f6d05}
+.app-layout .header-location{font-size:13px}
+.app-layout .header-location strong{font-size:14px;font-weight:650}
+.app-layout .account-link strong{font-size:13px;font-weight:650}
+.app-layout .account-link small{font-size:12px}
+.app-layout .account-link .avatar{background:#e0f0f2;color:#0c626e;border:1px solid #bfdce2;width:36px;height:36px;font-weight:700}
+.app-layout .header-right{gap:16px}
+.app-layout .admin-demo{font-size:11px;background:#fff6df;color:#70531d;border-bottom:1px solid #eddfba;letter-spacing:.025em;line-height:1.6}
+.app-layout .demo-dot{background:#a67b1b;width:6px;height:6px;flex-shrink:0}
+.app-layout .demo-extra{font-size:12px;color:#70531d;font-weight:500}
+.app-layout :is(.page-heading,.welcome-row){gap:18px;flex-wrap:wrap}
+.app-layout .page-heading{padding-bottom:23px;border-bottom:1px solid #d7e4ed;margin-bottom:26px}
+.app-layout :is(.page-heading h1,.dashboard-welcome h1){font-weight:700;font-size:clamp(27px,2.65vw,36px);letter-spacing:-.035em;color:#1d3d56}
+.app-layout .page-heading .eyebrow{font-size:11px;color:#426b83}
+.app-layout .date-label{font-size:13px;font-weight:500;color:#4c6577}
+.app-layout .app-footer{font-size:12px;color:#4e687b;gap:16px;flex-wrap:wrap;padding-top:7px}
+
+/* Comfortable forms; labels and values have deliberately different weights. */
+:is(.app-layout,.auth-page) label{font-size:13.5px;font-weight:600;line-height:1.55;gap:8px;color:#29465d}
+:is(.app-layout,.auth-page) :is(input,select,textarea){
+  font-size:14px;font-weight:500;line-height:1.55;min-height:44px;padding:11px 13px;
+  border:1px solid #bfcfdd;border-radius:9px;background:#fff;color:#243c50;
+  box-shadow:inset 0 1px 2px #193e5703;
+  transition:border-color .16s ease,box-shadow .16s ease,background-color .16s ease;
+}
+:is(.app-layout,.auth-page) :is(input,textarea)::placeholder{color:#657b8d;font-weight:400;opacity:1}
+:is(.app-layout,.auth-page) :is(input,select,textarea):hover:not(:disabled){border-color:#89a7bc}
+:is(.app-layout,.auth-page) :is(input,select,textarea):focus{
+  border-color:#0b7e88;outline:3px solid #168c9226;outline-offset:1px;box-shadow:0 0 0 1px #168c920d;
+}
+:is(.app-layout,.auth-page) :is(input,select,textarea):disabled{background:#edf2f6;color:#516678;cursor:not-allowed}
+:is(.app-layout,.auth-page) :is(input,textarea)[readonly]{background:#f1f6f9;color:#456277}
+:is(.app-layout,.auth-page) input:is([type=checkbox],[type=radio]){width:18px;height:18px;min-height:18px;padding:0;box-shadow:none;flex:none;accent-color:#087a82}
+:is(.app-layout,.auth-page) input[type=range]{padding:0;min-height:26px;border:0;box-shadow:none;background:transparent}
+:is(.app-layout,.auth-page) .checkbox{font-size:13px;font-weight:500;line-height:1.6;align-items:center}
+.app-layout .form-grid{gap:20px}
+.app-layout .form-panel{background:linear-gradient(150deg,#fff 0%,#fff 80%,#f9fcfe 100%)}
+.app-layout .form-panel>h2{font-size:20px;color:#204760;padding-bottom:16px;border-bottom:1px solid #dfebf1;margin-bottom:0}
+.app-layout .form-panel>form{margin-top:22px}
+.app-layout .surface-fieldset{background:#f4f8fb;border-color:#d3e1eb;border-radius:10px;gap:12px 20px}
+.app-layout .surface-fieldset>legend{font-size:13px;font-weight:600;color:#365b74}
+.app-layout .surface-fieldset .checkbox{font-size:13px}
+.app-layout .form-panel>details>summary{font-size:14px;font-weight:600}
+.app-layout .filters{gap:12px}
+.app-layout :is(.filters,.toolbar) label{font-size:13px}
+.app-layout .search-field svg{bottom:14px;color:#52768f}
+.app-layout .search-field input{padding-left:39px}
+.app-layout .toolbar{gap:14px}
+.app-layout .toolbar :is(input,select){background:#fff}
+.app-layout .filters>label{min-width:160px}
+.app-layout :is(.filters,.filter-main,.filter-extra) :is(input,select){min-height:44px;font-size:14px}
+.app-layout .dashboard-filters{background:#f9fcff;border:1px solid #cddfea;border-radius:14px;padding:19px;box-shadow:0 4px 13px #305c7604}
+.app-layout :is(.filter-main,.filter-extra) label{font-size:13px;font-weight:600;gap:8px}
+.app-layout :is(.dashboard-filter-details summary,.filter-guidance){font-size:13px;color:#45667b;line-height:1.7}
+.app-layout .filter-extra{gap:18px;border-top-color:#dce7ef}
+
+/* Save, secondary and destructive actions remain recognisable at every width. */
+:is(.app-layout,.auth-page) .button{
+  font-size:13px;font-weight:650;min-height:44px;padding:11px 17px;border-radius:9px;
+  background:#086b76;border-color:#086b76;color:#fff;box-shadow:0 3px 8px #0c607415;
+  transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .16s ease;
+}
+:is(.app-layout,.auth-page) .button:hover{background:#075560;border-color:#075560;transform:translateY(-1px);box-shadow:0 6px 14px #14556f1c;filter:none}
+:is(.app-layout,.auth-page) .button:active{transform:translateY(0);box-shadow:none}
+:is(.app-layout,.auth-page) .button:hover svg{transform:none}
+:is(.app-layout,.auth-page) .button.secondary{background:#f7fbfe;border-color:#b9d1e1;color:#225a80;box-shadow:none}
+:is(.app-layout,.auth-page) .button.secondary:hover{background:#e8f2f9;border-color:#8fb7ce;color:#154b70}
+:is(.app-layout,.auth-page) .button.danger{background:#a02e43;border-color:#a02e43;color:#fff}
+:is(.app-layout,.auth-page) .button.danger:hover{background:#842237;border-color:#842237}
+:is(.app-layout,.auth-page) .button.small{min-height:38px;padding:8px 12px;font-size:13px}
+:is(.app-layout,.auth-page) .button:disabled{opacity:.72;cursor:wait;transform:none;filter:none;box-shadow:none}
+:is(.app-layout,.auth-page) .icon-button{color:#41647c;min-width:42px;min-height:42px;border-radius:9px}
+:is(.app-layout,.auth-page) .icon-button:hover{background:#e4f0f5;color:#115f76;transform:none}
+.app-layout :is(.text-link,.table-link,.panel-bottom-link){font-size:13px;font-weight:650;color:#146784}
+.app-layout .table-link{display:inline-block;padding:5px 0;text-underline-offset:3px}
+.app-layout .table-link:hover{text-decoration:underline}
+.app-layout :is(.toolbar,.actions,.panel-heading)>*{min-width:0}
+.app-layout .actions{gap:10px}
+
+/* Cards and data surfaces: subdued colour for structure, stronger ink for data. */
+.app-layout .panel{border-color:#d1e0ea;border-radius:15px;background:#fff;box-shadow:0 5px 18px #244d6c06}
+.app-layout .panel-heading{background:linear-gradient(110deg,#f6fafe,#fbfdfd);border-bottom:1px solid #e1ebf2;padding:21px 23px;flex-wrap:wrap;gap:12px}
+.app-layout .panel-heading h2{font-size:18px;font-weight:700;color:#23475f}
+.app-layout .panel-heading :is(p,.muted){font-size:13px;line-height:1.65;color:#4d687c}
+.app-layout .panel-heading .eyebrow{font-size:11px;margin-bottom:8px}
+.app-layout .panel-body{padding-top:20px}
+.app-layout .empty{padding:44px 24px!important;background:linear-gradient(150deg,#f6fafc,#f0f7f7);font-size:14px;color:#46677b;line-height:1.8}
+.app-layout .empty p{font-size:14px}
+.app-layout .empty svg{color:#388595}
+.app-layout .table-wrap{overflow:auto;scrollbar-width:thin;scrollbar-color:#abc3d2 #eff5f8;overscroll-behavior-x:contain}
+.app-layout .table-wrap:focus-visible{outline:3px solid #1a639d;outline-offset:-3px}
+.app-layout table{font-size:14px;line-height:1.65;color:#2c4558;font-weight:500}
+.app-layout table th{font-size:12px;font-weight:700;text-transform:none;letter-spacing:.015em;color:#365b75;background:#eaf2f8;padding:15px 20px;border-bottom:1px solid #cddde9;line-height:1.5}
+.app-layout table td{padding:16px 20px;border-bottom-color:#e4edf3;font-size:14px;line-height:1.65}
+.app-layout table td strong{font-size:14px;font-weight:650;color:#233f55}
+.app-layout table td small{font-size:13px;font-weight:450;color:#506b7e;line-height:1.65}
+.app-layout tbody tr:nth-child(even){background:#f8fbfd}
+.app-layout tbody tr:hover{background:#edf6fa}
+.app-layout :is(.person-cell strong,.recent-list strong){font-size:14px;font-weight:650;line-height:1.5}
+.app-layout .person-cell .avatar.soft{background:#e4f0f4;color:#2c677d;border:1px solid #cbdfe7;font-size:14px;font-weight:650}
+.app-layout :is(.pagination,.movement-pagination,.orth-pagination){font-size:13px;color:#4d687c;background:#f7fbfd;gap:9px;flex-wrap:wrap}
+.app-layout .pagination a{min-height:38px;min-width:38px;display:inline-flex;align-items:center;justify-content:center;border-color:#bfd3e0;color:#285f80;background:#fff;border-radius:8px;font-weight:600}
+.app-layout .pagination a[aria-current]{background:#086b76;border-color:#086b76;color:#fff;box-shadow:0 2px 6px #0d596e1b}
+.app-layout .pagination a:hover:not([aria-current]){background:#e8f3f8}
+.app-layout .badge{font-size:12px;font-weight:650;line-height:1.5;border:1px solid transparent;padding:5px 9px;background:#edf2f6;color:#415d73;white-space:normal}
+.app-layout .badge:before{flex-shrink:0}
+.app-layout .badge:is(.completed,.active,.attended,.registered,.saved,.settled,.accepted,.scheduled){color:#196345;background:#e7f5ec;border-color:#c8e7d4}
+.app-layout .badge:is(.pending,.pending_acceptance,.outstanding,.paused){color:#785213;background:#fff3d8;border-color:#efdbac}
+.app-layout .badge:is(.confirmed,.in_progress,.permanent){color:#205e87;background:#e8f2fd;border-color:#cadaed}
+.app-layout .badge:is(.cancelled,.inactive,.no_show,.rejected,.voided){color:#922d44;background:#faeaf0;border-color:#edcfd9}
+.app-layout .badge:is(.planned,.mixed,.referred,.signed){color:#614c87;background:#f0ecfa;border-color:#ded3ed}
+.app-layout .badge:is(.pediatric,.needs_followup,.needs_review){color:#8a481b;background:#fff0df;border-color:#efd5b6}
+.app-layout .badge:is(.proposed,.not_applicable){color:#465f71;background:#eef3f7;border-color:#d7e3ec}
+.app-layout .danger-zone{border-color:#e5c4cc}
+.app-layout .danger-zone .panel-heading{background:#fff4f6;border-bottom-color:#ecd6db}
+.app-layout .danger-zone h2{color:#922d44}
+
+/* Dashboard metrics stay colourful while supporting comfortable data reading. */
+.app-layout :is(.stat,.metric-card){background:#fff;border-color:#cedeeb;border-radius:15px;box-shadow:0 5px 16px #234b6906}
+.app-layout .metric-card:hover{transform:translateY(-2px);border-color:#a5cbd9;box-shadow:0 10px 22px #234b6910}
+.app-layout :is(.stat,.metric-card) .between{font-size:13px;font-weight:600;color:#45647a;line-height:1.5}
+.app-layout .stat>span{font-size:13px;font-weight:600;color:#45647a}
+.app-layout :is(.stat>strong,.metric-card>strong){font-weight:700;color:#203f59;letter-spacing:-.045em;font-size:34px}
+.app-layout :is(.stat>small,.metric-bottom small){font-size:12px;color:#4e687c;line-height:1.65}
+.app-layout .metric-income{background:linear-gradient(125deg,#16517b,#087780);border-color:#175772;color:#fff}
+.app-layout .metric-income :is(.between,.metric-bottom small,.metric-link){color:#edf8fc}
+.app-layout .metric-income>strong{color:#fff}
+.app-layout .metric-income .stat-icon{background:#ffffff24;color:#fff}
+.app-layout .metric-card .stat-icon.appointments{background:#e7f0fc;color:#346ba6}
+.app-layout .metric-card .stat-icon.treatments{background:#f2eafd;color:#7757a0}
+.app-layout .metric-card .stat-icon{border-radius:11px}
+.app-layout :is(.welcome-row p,.dashboard-welcome p,.live-status,.period-tabs a){font-size:13px;font-weight:500}
+.app-layout .dashboard-welcome .welcome-actions .button{font-size:13px;min-height:42px;padding:10px 14px}
+.app-layout .period-tabs{background:#e5edf5;border:1px solid #cddde9;border-radius:10px;padding:4px;gap:3px}
+.app-layout .period-tabs a{font-size:13px;font-weight:600;border-radius:7px;color:#3d5f79}
+.app-layout .period-tabs a.active{background:#fff;color:#125f77;box-shadow:0 2px 6px #244d6b12}
+.app-layout :is(.metric-picker,.metric-picker select,.trend-inspect label,.trend-inspect output,.chart-data summary){font-size:13px;color:#44667c}
+.app-layout .metric-picker{gap:7px}
+.app-layout .metric-picker select{min-height:40px;background:#f8fcff;min-width:160px}
+.app-layout .trend-inspect{padding:14px 0}
+.app-layout .trend-panel .chart-data summary{font-size:13px}
+.app-layout .distribution-panel .status-legend{gap:12px 16px}
+.app-layout .distribution-panel .status-legend .badge{font-size:12px}
+.app-layout .distribution-panel .status-legend strong{font-size:14px}
+.app-layout .schedule-person strong{font-size:14px;font-weight:650}
+.app-layout .schedule-person small{font-size:13px;display:block}
+.app-layout .schedule-hour{font-size:15px;color:#136e80}
+.app-layout .schedule-hour small{font-size:12px;font-weight:500}
+.app-layout .schedule-item{gap:13px;padding:17px 0;border-top-color:#dfebf2;flex-wrap:wrap}
+.app-layout .schedule-item .badge{font-size:12px}
+.app-layout .attention-panel{background:#fffdf7}
+.app-layout .attention-panel .panel-heading{background:#fff7e8;border-bottom-color:#f0e2c7}
+.app-layout .attention-item{color:#624d2b;border-top-color:#eee3cd}
+.app-layout .attention-item strong{font-size:14px;color:#5d4827}
+.app-layout .attention-item small{font-size:13px;color:#705d3c}
+.app-layout .attention-icon{background:#f7ecd2;color:#8a641e}
+.app-layout .attention-count{background:#faedca;color:#805c18;border-color:#ead5a4}
+.app-layout :is(.finance-summary span,.finance-summary small,.movement-type,.movement-disclaimer,.event-count,.dashboard-footnote){font-size:13px;line-height:1.7;color:#4e687b}
+.app-layout .finance-summary strong{font-size:27px;color:#24455d;font-weight:700}
+.app-layout .movement-amount{font-size:15px;font-weight:700}
+.app-layout .event-copy>strong{font-size:14px;font-weight:650;color:#284b63}
+.app-layout .event-copy>span{font-size:13px;color:#46677e}
+.app-layout .event-copy>small{font-size:12px;color:#4f6b7f}
+.app-layout .clinical-event{gap:12px;padding:18px 0;flex-wrap:wrap}
+.app-layout .clinical-event>.badge{font-size:12px}
+.app-layout .event-icon{background:#e7f0f8;color:#356e99}
+.app-layout .event-icon.clinical{background:#f0eafb;color:#775599}
+
+/* Existing clinical, agenda, treatment and prescription components. */
+.app-layout :is(.clinical-background,.clinical-entry>div:not(.panel-heading),.clinical-entry>.muted,.clinical-entry p,.patient-summary p,.attachment-list){font-size:14px;line-height:1.75}
+.app-layout :is(.clinical-background strong,.clinical-entry h3){font-weight:650}
+.app-layout .clinical-entry .panel-heading{background:transparent}
+.app-layout :is(.summary-strip,.activity-row,.activity-row strong,.activity-row small,.info-line){font-size:13px}
+.app-layout .calendar-grid{background:#fff}
+.app-layout .calendar-day{border-color:#e0eaf2;min-width:0}
+.app-layout .calendar-day.today{background:#eef7fa}
+.app-layout .day-label{font-size:13px;font-weight:600;color:#49667d}
+.app-layout .calendar-event{font-size:13px;color:#285b89;background:#eaf2fd;border-color:#6793bc;line-height:1.6;overflow-wrap:anywhere}
+.app-layout .calendar-event strong{font-size:13px;font-weight:650}
+.app-layout .calendar-event :is(small,span){font-size:12px;color:inherit}
+.app-layout .calendar-event.pending{background:#fff5df;color:#7b581b;border-color:#c69943}
+.app-layout .calendar-event:is(.attended,.completed){background:#eaf5ee;color:#286c4d;border-color:#6aab84}
+.app-layout .calendar-event:is(.cancelled,.no_show){background:#faedf1;color:#913b54;border-color:#c27c92}
+.app-layout :is(.availability-grid strong,.availability-grid p,.availability-grid small,.role-card label){font-size:13px}
+.app-layout .role-card{background:#f4f8fc;border-color:#d3e1eb;border-radius:12px}
+.app-layout .role-card h3{font-size:15px}
+.app-layout :is(.stage-name,.stage-detail>.muted,.stage-notes,.session-previous,.session-previous p){font-size:13px;line-height:1.75}
+.app-layout .stage-row{border-color:#d6e3ed;background:#fbfdff}
+.app-layout .stage-row>summary{flex-wrap:wrap}
+.app-layout .stage-order{font-size:12px;color:#476b82}
+.app-layout .file-card figcaption p{font-size:13px;color:#314c60}
+.app-layout .file-card figcaption small{font-size:12px}
+.app-layout :is(.compare-pick,.compare-grid figcaption,.dentition-tag,.tooth-legend>span,.odonto-orientation,#tooth-summary,#surface-hint){font-size:13px;line-height:1.65}
+.app-layout .compare-pick{background:#fff;border:1px solid #c8dce6}
+.app-layout .odontogram-footer{background:#f1f7fa;border-top-color:#d8e5ed}
+.app-layout .odontogram-footer>.muted{font-size:13px}
+.app-layout :is(.dental-chart-group>h3,.tooth-button>span){font-size:12px;font-weight:700;color:#3b6177}
+.app-layout .prescription :is(.prescription-clinic-info,.prescription-clinic-info>strong,.prescription-patient>div>span,.prescription-section>span,.prescription-title p,.prescription-item p,.prescription-sign-line span,.prescription-sign-line small){font-size:13px}
+.app-layout .prescription-patient{gap:16px}
+.app-layout .rx-row label small{font-size:12px;line-height:1.6}
+
+/* Orthodontics uses the same reading scale, including secondary tabs and media. */
+.app-layout .orth-workspace{--orth-ink:#213e55;--orth-muted:#4d687d;--orth-line:#d1e0ea;--orth-teal:#087a84}
+.app-layout .orth-workspace .button{font-size:13px;min-height:44px}
+.app-layout .orth-workspace .button.small{font-size:13px;min-height:38px}
+.app-layout .orth-workspace label{font-size:13.5px;font-weight:600}
+.app-layout .orth-workspace :is(input,select,textarea){font-size:14px}
+.app-layout .orth-kicker{font-size:11px;font-weight:700;letter-spacing:.08em;color:#436b84}
+.app-layout .orth-welcome h2{font-size:29px;font-weight:700}
+.app-layout :is(.orth-welcome p,.orth-section-intro p,.orth-section-heading p,.orth-dialog>.muted){font-size:14px;color:#4d687d}
+.app-layout .orth-workspace .panel{box-shadow:0 5px 18px #244d6c06;border-color:#d1e0ea}
+.app-layout .orth-section-heading{background:linear-gradient(110deg,#f5fafe,#fbfdfd);border-bottom:1px solid #e1ebf2;flex-wrap:wrap;margin-bottom:19px;padding:20px 22px}
+.app-layout .orth-section-heading h3{font-size:17px;font-weight:700}
+.app-layout .orth-section-heading>.muted{font-size:13px}
+.app-layout .orth-filter{background:#f8fcff;border-color:#cddfea;padding:19px;border-radius:14px}
+.app-layout .orth-filter-more summary{font-size:13px}
+.app-layout .orth-filter :is(input,select){min-height:44px}
+.app-layout .orth-metrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.app-layout .orth-metric{border-radius:14px;border-color:#cedfea;box-shadow:0 5px 16px #234b6906}
+.app-layout .orth-metric>div{font-size:13px;font-weight:600;line-height:1.55;color:#45657c;align-items:flex-start}
+.app-layout .orth-metric>strong{font-weight:700;font-size:34px}
+.app-layout .orth-metric>small{font-size:12px;line-height:1.65;display:block}
+.app-layout .orth-metric-featured{background:linear-gradient(125deg,#16517b,#087780);border-color:#175772}
+.app-layout .orth-metric-featured :is(div,small,svg){color:#f0faff}
+.app-layout .orth-bar-row{grid-template-columns:minmax(96px,1fr) minmax(30px,1.1fr) 28px;gap:11px;min-height:28px}
+.app-layout .orth-bar-row>span:first-child{font-size:13px;white-space:normal;line-height:1.5;color:#385c74}
+.app-layout .orth-bar-row>strong{font-size:13px;font-weight:700}
+.app-layout .orth-chart-output{font-size:13px;color:#4a6a80;line-height:1.65;min-height:48px;background:#f8fbfd}
+.app-layout .orth-empty strong{font-size:15px;font-weight:650;color:#355a73}
+.app-layout .orth-empty p{font-size:14px}
+.app-layout .orth-chart .orth-empty strong{font-size:14px}
+.app-layout .orth-chart .orth-empty p{font-size:13px}
+.app-layout .orth-workspace table{font-size:14px}
+.app-layout .orth-workspace th{font-size:12px;letter-spacing:.015em;background:#eaf2f8;color:#365b75;padding:15px 20px}
+.app-layout .orth-workspace td{font-size:14px;padding:16px 20px;line-height:1.65}
+.app-layout .orth-workspace td small{font-size:13px;line-height:1.65}
+.app-layout .orth-patient-name{font-size:14px;font-weight:650;color:#244e6d}
+.app-layout .orth-status{font-size:12px;font-weight:650;line-height:1.5;white-space:normal}
+.app-layout .orth-status:is(.active,.followup,.granted){color:#196345;background:#e7f5ec;border-color:#c8e7d4}
+.app-layout .orth-status:is(.completed,.retention){color:#275c91;background:#e9f1fd;border-color:#ccdaef}
+.app-layout .orth-status:is(.cancelled,.suspended){color:#922d44;background:#faeaf0;border-color:#edcfd9}
+.app-layout .orth-status.pending_authorization{color:#785213;background:#fff3d8;border-color:#efdbac}
+.app-layout :is(.orth-icon-link,.orth-count){font-size:13px;min-width:36px;min-height:36px;border-radius:8px}
+.app-layout .orth-link{font-size:13px;font-weight:650;color:#136b83}
+.app-layout .orth-back{font-size:13px;color:#3d6883}
+.app-layout .orth-case-heading{background:linear-gradient(120deg,#fff,#f1f8fc);border-color:#cddfea;box-shadow:0 5px 15px #234b6905}
+.app-layout .orth-case-heading h2{font-size:27px;font-weight:700}
+.app-layout .orth-case-heading p{font-size:13px;color:#46677f}
+.app-layout .orth-case-heading p>strong{font-size:13px}
+.app-layout .orth-case-heading-actions .button{font-size:13px}
+.app-layout .orth-tabs{gap:6px;padding-bottom:12px;border-bottom-color:#cfdfeb;scroll-padding-inline:5px}
+.app-layout .orth-tabs>a{font-size:13px;font-weight:600;padding:12px 14px;background:#f6fafe;color:#42667f;border-color:#deE8f0;min-height:44px}
+.app-layout .orth-tabs>a:hover{background:#e5f1f7}
+.app-layout .orth-tabs>a.active{background:#dff0f3;color:#095e70;border-color:#a8d2dc;box-shadow:0 2px 6px #0e526b0b;font-weight:700}
+.app-layout :is(.orth-facts dt,.orth-definition-list dt){font-size:13px;font-weight:600;color:#496a81}
+.app-layout :is(.orth-facts dd,.orth-definition-list dd){font-size:14px;font-weight:500;line-height:1.75;color:#2d4a60}
+.app-layout :is(.orth-progress-label,.orth-progress-label strong,.orth-task strong){font-size:14px;font-weight:650}
+.app-layout :is(.orth-task small,.orth-callout,.orth-progress-block p,.orth-help,.orth-note h3,.orth-note p){font-size:13px;line-height:1.8;color:#47687e}
+.app-layout .orth-note h3{font-weight:650;color:#315973}
+.app-layout .orth-note p{font-size:14px;white-space:pre-wrap}
+.app-layout .orth-info{background:#eaf4fa;border-color:#c5dfed;color:#355e79;font-size:14px}
+.app-layout .orth-info strong{font-size:14px;font-weight:650}
+.app-layout .orth-info p{font-size:13px;color:#476a82}
+.app-layout .orth-form-panel>summary{font-size:15px;font-weight:650;color:#295f7b}
+.app-layout .orth-form-panel>summary small{font-size:13px}
+.app-layout .orth-form-divider{font-size:14px;font-weight:650;color:#335c77}
+.app-layout .orth-workspace .orth-check{font-size:13px!important;font-weight:500!important;line-height:1.75}
+.app-layout .orth-record>summary strong{font-size:14px;font-weight:650}
+.app-layout .orth-record>summary small{font-size:13px}
+.app-layout .orth-plan-compare-tools label{font-size:13px}
+.app-layout .orth-plan-compare-tools select{font-size:14px}
+.app-layout .orth-plan-comparison h4{font-size:15px;font-weight:650}
+.app-layout .orth-timeline-item h4{font-size:16px;font-weight:700}
+.app-layout .orth-timeline-item header p{font-size:13px}
+.app-layout .orth-control-footer{font-size:13px;line-height:1.7}
+.app-layout .orth-addendum{font-size:14px;background:#fff7e5;color:#6b5125;line-height:1.8}
+.app-layout .orth-addendum :is(strong,small){font-size:13px;color:#72572c}
+.app-layout .orth-addendum-form>summary{font-size:13px;font-weight:600}
+.app-layout .orth-dropzone small{font-size:13px;font-weight:450}
+.app-layout .orth-file-status{font-size:13px;line-height:1.7;color:#1b637a}
+.app-layout .orth-photo-card figcaption strong{font-size:14px;font-weight:650}
+.app-layout .orth-photo-card figcaption :is(small,p){font-size:13px;color:#49697f}
+.app-layout .orth-photo-select{font-size:12px!important;line-height:1.55;gap:7px!important;padding:6px 8px}
+.app-layout .orth-photo-select input{width:16px;height:16px;min-height:16px}
+.app-layout .orth-compare-side figcaption{font-size:13px;line-height:1.7}
+.app-layout .orth-slider-captions{font-size:13px;color:#46687f}
+.app-layout .orth-comparator>.orth-help{font-size:13px;line-height:1.8}
+.app-layout .orth-document-list strong{font-size:14px;font-weight:650}
+.app-layout .orth-document-list small{font-size:13px;line-height:1.75}
+.app-layout .orth-report-sections legend{font-size:14px;font-weight:650;color:#395f79}
+.app-layout .orth-question-hints>span{font-size:13px}
+.app-layout .orth-question{font-size:13px;min-height:38px;line-height:1.6;border-color:#c3dbe9;background:#f1f7fc;color:#356582}
+.app-layout .orth-assistant-content{font-size:14px;line-height:1.9}
+.app-layout .orth-workspace .orth-form-error{font-size:13px;font-weight:600}
+
+/* Messages and field errors share the semantic palette, without relying on colour. */
+:is(.app-layout,.auth-page) .notice{font-size:14px;font-weight:500;line-height:1.7;padding:15px 18px;border-radius:11px;border-left-width:4px;box-shadow:0 3px 9px #234d6805}
+:is(.app-layout,.auth-page) .notice.success{background:#eaf6ee;color:#225f43;border-color:#abd5ba;padding-right:48px}
+.app-layout .notice.success{position:fixed;z-index:70;top:93px;right:25px;width:min(420px,calc(100vw - 36px));margin:0;box-shadow:0 12px 32px #224c6424}
+:is(.app-layout,.auth-page) .notice.error{background:#fff0f3;color:#922d44;border-color:#dfacb9}
+:is(.app-layout,.auth-page) .notice.warning{background:#fff6df;color:#79571d;border-color:#dfc88e}
+:is(.app-layout,.auth-page) .notice :is(p,small){color:inherit;font-size:13px}
+:is(.app-layout,.auth-page) .notice-dismiss{min-height:38px;min-width:38px;right:6px;top:7px;border-radius:7px}
+:is(.app-layout,.auth-page) .notice-dismiss:hover{background:#0c42360b}
+:is(.app-layout,.auth-page) :is(.required-marker,.required-indicator){color:#ad273e;font-size:15px;font-weight:800;line-height:1;display:inline;margin-left:3px}
+:is(.app-layout,.auth-page) :is(.form-required-note,.required-legend){font-size:13px;color:#4c687e;font-weight:500;line-height:1.7;margin:0;grid-column:1/-1;flex-basis:100%}
+:is(.app-layout,.auth-page) :is(.form-required-note,.required-legend) :is(.required-marker,.required-indicator){margin-left:0}
+:is(.app-layout,.auth-page) .field-label-text{display:inline;font-size:inherit;font-weight:inherit;line-height:inherit}
+:is(.app-layout,.auth-page) :is(input,select,textarea)[aria-invalid=true]{border:2px solid #b43b52;background:#fff8f9;padding:10px 12px;box-shadow:0 0 0 2px #b43b520b}
+:is(.app-layout,.auth-page) label:has([aria-invalid=true]){color:#902e45}
+:is(.app-layout,.auth-page) form[aria-busy=true]{cursor:progress}
+:is(.app-layout,.auth-page) form[aria-busy=true] button{cursor:wait}
+:is(.app-layout,.auth-page) :is(.button.is-loading,.button[aria-busy=true]){position:relative;pointer-events:none}
+:is(.app-layout,.auth-page) :is(.button.is-loading,.button[aria-busy=true]):before{
+  content:'';display:inline-block;width:15px;height:15px;border:2px solid currentColor;
+  border-right-color:transparent;border-radius:50%;animation:ui-loading .75s linear infinite;flex-shrink:0;
+}
+
+/* Native dialogs remain keyboard accessible; the confirmation dialog is a layout sibling. */
+body:has(>.app-layout,>.auth-page) dialog{
+  font-size:14px;font-weight:450;line-height:1.75;color:#253f55;background:#fff;
+  border:1px solid #c4d9e7;border-radius:18px;box-shadow:0 24px 90px #143a5860;
+}
+body:has(>.app-layout,>.auth-page) dialog::backdrop{background:#16334c80;backdrop-filter:blur(4px)}
+body:has(>.app-layout,>.auth-page) dialog[open]{animation:ui-dialog-enter .2s ease-out}
+body:has(>.app-layout,>.auth-page) dialog :is(h2,h3){font-weight:700;color:#23445e;line-height:1.4}
+body:has(>.app-layout,>.auth-page) dialog :is(p,small,label){font-size:14px;color:#4c687e;line-height:1.75}
+body:has(>.app-layout,>.auth-page) dialog .button{font-size:13px;font-weight:650;min-height:44px;border-radius:9px}
+body:has(>.app-layout,>.auth-page) dialog .button.danger{background:#a02e43;border-color:#a02e43}
+body:has(>.app-layout,>.auth-page) dialog .button.secondary{background:#f4f9fd;border-color:#b9d1e1;color:#225a80}
+body:has(>.app-layout,>.auth-page) dialog :is(button,a,summary):focus-visible{outline:3px solid #1a639d;outline-offset:3px}
+.app-layout .movement-drawer{background:#f9fcfe;border-radius:18px 0 0 18px}
+.app-layout .movement-fields{font-size:14px;line-height:1.8}
+.app-layout .movement-fields dt{font-size:13px;font-weight:600;color:#4a6c83}
+.app-layout .drawer-heading .eyebrow{font-size:11px}
+.app-layout .orth-lightbox .orth-dialog-heading h3{font-size:16px}
+.app-layout .orth-lightbox>.muted{font-size:13px;line-height:1.7}
+
+/* Access screens use the established logo, never the public site's banner. */
+.auth-page{background:#edf4f8}
+.auth-page .auth-story{background:linear-gradient(145deg,#e0eff6 0%,#e6f4f3 70%,#d6ebe9 100%);border-right:1px solid #c9dee6;position:relative;padding:42px;gap:38px}
+.auth-page .auth-story:after{content:'';position:absolute;width:230px;height:5px;border-radius:5px;background:linear-gradient(90deg,#16808b,#8fbecd);left:42px;top:35%;pointer-events:none}
+.auth-page .auth-story>div:not(.brand){position:relative;z-index:1}
+.auth-page .auth-story h1{font-size:clamp(34px,3.3vw,49px);font-weight:700;color:#1d4b64;line-height:1.2;letter-spacing:-.04em;margin-top:24px}
+.auth-page .auth-story>div>p{font-size:15px;line-height:1.85;color:#41687c;max-width:420px}
+.auth-page .auth-story>small{font-size:13px;color:#44697d}
+.auth-page .auth-story .eyebrow{font-size:12px;color:#236479}
+.auth-page .auth-form{background:linear-gradient(160deg,#f5f9fc,#edf5f7);padding:34px clamp(28px,4vw,64px);gap:32px;position:relative}
+.auth-page .auth-card{max-width:440px;padding:30px;background:#fff;border:1px solid #d1e1eb;border-radius:19px;box-shadow:0 14px 45px #234c6b0c}
+.auth-page .auth-brand{margin-bottom:27px}
+.auth-page .auth-brand .brand .brand-text{font-size:24px}
+.auth-page .auth-brand .brand img.brand-logo{width:82px;height:88px}
+.auth-page .auth-card h2{font-size:31px;font-weight:700;margin:17px 0 12px;color:#23465f}
+.auth-page .auth-card>.muted{font-size:14px;line-height:1.75;margin-bottom:26px}
+.auth-page .auth-card>.eyebrow{font-size:10px;letter-spacing:.08em;color:#476c83}
+.auth-page .auth-card .between{gap:16px;align-items:flex-start;flex-wrap:wrap}
+.auth-page .auth-card .between>a{font-size:13px;font-weight:600;color:#1e6480}
+.auth-page .auth-card .checkbox{font-size:13px;font-weight:500}
+.auth-page .back-link{font-size:13px;font-weight:600;color:#3d647f;width:fit-content}
+.auth-page .password-toggle{font-size:13px;font-weight:650;padding:6px;top:6px;right:6px;border-radius:6px;color:#196780}
+.auth-page .password-toggle:hover{background:#edf6fa}
+.auth-page .demo-access{background:#f6f9fc;border-color:#c6d8e5;border-radius:10px;padding:16px}
+.auth-page .demo-access>strong{font-size:11px;font-weight:700;letter-spacing:.02em;color:#496278;line-height:1.7;display:block}
+.auth-page .demo-access p{font-size:13px;line-height:1.9;color:#4d667b}
+.auth-page .demo-access code{font-size:12px;overflow-wrap:anywhere}
+.auth-page .secure-note{font-size:12px;color:#46687f;line-height:1.65;gap:9px}
+.auth-page .auth-form>small{font-size:12px;color:#506d80}
+
+@keyframes ui-workspace-enter{from{opacity:.6;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes ui-dialog-enter{from{opacity:0;transform:translateY(7px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes ui-loading{to{transform:rotate(360deg)}}
+
+@media(min-width:1151px){
+  .app-layout .sidebar{width:244px;padding-left:17px;padding-right:17px}
+  .app-layout .app-main{margin-left:244px}
+  .app-layout .sidebar .brand .brand-text{font-size:18px}
+}
+@media(min-width:1500px){.app-layout .workspace{padding:40px 44px}.app-layout .sidebar{width:252px}.app-layout .app-main{margin-left:252px}}
+@media(max-width:1150px) and (min-width:701px){
+  .app-layout .sidebar{width:214px;padding-left:12px;padding-right:12px}
+  .app-layout .app-main{margin-left:214px}
+  .app-layout .sidebar nav>a{font-size:13px;gap:9px;padding:11px 10px}
+  .app-layout .sidebar .brand .brand-text{font-size:16px}
+  .app-layout .sidebar .brand img.brand-logo{width:38px;height:41px}
+  .app-layout .sidebar>.brand{gap:7px;margin-left:4px;margin-right:4px}
+}
+@media(max-width:1150px){
+  .app-layout .workspace{padding:28px 23px 36px}
+  .app-layout .filter-main{flex-wrap:wrap;gap:14px}
+  .app-layout .filter-main label{flex:1 1 145px}
+  .app-layout .premium-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .app-layout .dashboard-middle{grid-template-columns:1fr}
+  .app-layout .clinical-feed{grid-template-columns:1fr}
+  .app-layout .orth-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .app-layout .orth-metric{padding:16px}
+  .app-layout .orth-metric>div{font-size:12px}
+  .app-layout .orth-metric>div>svg{width:17px;height:17px}
+  .app-layout .orth-metric>small{font-size:12px}
+}
+@media(max-width:950px){
+  .app-layout .dashboard-charts{grid-template-columns:1fr}
+  .app-layout .orth-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .app-layout .filter-main label{min-width:0;flex-basis:calc(50% - 14px)}
+  .app-layout .filter-main label:nth-child(3),.app-layout .filter-main label:nth-child(4){flex-basis:calc(50% - 14px)}
+  .app-layout .orth-filter{grid-template-columns:1fr 1fr;gap:16px}
+  .app-layout .orth-filter .orth-search{grid-column:1/-1}
+  .app-layout .orth-filter>.button{grid-column:auto}
+  .app-layout .orth-chart-grid{grid-template-columns:1fr 1fr}
+  .app-layout .orth-chart:last-child{grid-column:span 2}
+  .app-layout .schedule-person{min-width:120px}
+  .app-layout .schedule-item .badge{max-width:100%}
+  .auth-page .auth-story{padding:32px;gap:28px}
+  .auth-page .auth-story:after{left:32px;width:170px}
+  .auth-page .auth-form{padding:28px}
+  .auth-page .auth-card{padding:25px}
+  .auth-page .auth-brand .brand{gap:12px;flex-wrap:wrap}
+}
+@media(max-width:700px){
+  .app-layout .app-main{margin-left:0}
+  .app-layout .sidebar{width:258px;padding:24px 17px;background:#f5fafc}
+  .app-layout .sidebar nav>a{font-size:14px;padding:12px;min-height:46px}
+  .app-layout .sidebar .brand .brand-text{font-size:20px}
+  .app-layout .sidebar .brand img.brand-logo{width:46px;height:49px}
+  .app-layout .app-header{height:70px;padding:0 13px}
+  .app-layout .header-location{gap:7px;min-width:0}
+  .app-layout .header-location strong{font-size:13px;line-height:1.4;overflow-wrap:anywhere}
+  .app-layout .header-right{gap:6px;flex-shrink:0}
+  .app-layout .account-link .avatar{width:33px;height:33px}
+  .app-layout .header-right>form{padding-left:4px}
+  .app-layout .header-right .icon-button{min-width:36px;padding:7px}
+  .app-layout .admin-demo{font-size:10px;padding:8px 16px;align-items:flex-start;gap:7px}
+  .app-layout .admin-demo .demo-dot{margin-top:5px}
+  .app-layout .notice.success{top:80px;right:13px;width:calc(100vw - 26px);font-size:13px}
+  .app-layout .workspace{padding:24px 14px 34px}
+  .app-layout .page-heading{padding-bottom:18px;margin-bottom:23px}
+  .app-layout .page-heading h1{font-size:28px}
+  .app-layout .page-heading .eyebrow{font-size:10px}
+  .app-layout .app-footer{padding:0 16px 21px;font-size:12px;gap:7px}
+  .app-layout .panel{border-radius:13px}
+  .app-layout .panel-heading{padding:18px;gap:11px;align-items:flex-start}
+  .app-layout .panel-heading h2{font-size:17px}
+  .app-layout .panel-heading :is(p,.muted){font-size:13px}
+  .app-layout .form-panel{padding:20px!important}
+  .app-layout .form-panel>h2{font-size:19px}
+  .app-layout .form-grid{gap:19px}
+  .app-layout .toolbar .filters{gap:11px;min-width:0}
+  .app-layout .filters>label{min-width:0;flex-basis:calc(50% - 11px)}
+  .app-layout .filters>.search-field{min-width:0;flex-basis:100%}
+  .app-layout .filters>select{min-width:0;max-width:100%;flex-basis:150px}
+  .app-layout .table-wrap table{min-width:660px}
+  .app-layout .table-wrap td,.app-layout .table-wrap th{padding:14px 17px}
+  .app-layout .table-wrap th{font-size:12px}
+  .app-layout .table-wrap td,.app-layout .table-wrap td strong{font-size:14px}
+  .app-layout .table-wrap td small{font-size:13px}
+  .app-layout .pagination{gap:7px;padding:16px;flex-wrap:wrap}
+  .app-layout .premium-stats{gap:12px}
+  .app-layout .metric-card{padding:17px 15px}
+  .app-layout .metric-card .between{font-size:12px;gap:8px;align-items:flex-start;line-height:1.5}
+  .app-layout .metric-card .stat-icon{width:29px;height:29px}
+  .app-layout .metric-card>strong{font-size:32px;line-height:1.3}
+  .app-layout .metric-bottom small{font-size:12px;line-height:1.6}
+  .app-layout .stat>small{font-size:12px}
+  .app-layout .stat .between{font-size:13px}
+  .app-layout .dashboard-welcome h1{font-size:29px}
+  .app-layout .dashboard-welcome p{font-size:14px;max-width:none}
+  .app-layout .dashboard-welcome .welcome-actions{flex-direction:column;align-items:flex-start;gap:13px}
+  .app-layout .dashboard-welcome .welcome-actions .actions{width:100%;gap:9px;justify-content:flex-start}
+  .app-layout .dashboard-welcome .welcome-actions .button{font-size:13px;min-height:42px;padding:10px 12px}
+  .app-layout .period-tabs a{font-size:13px;padding:8px 10px}
+  .app-layout .live-status{font-size:12px}
+  .app-layout .dashboard-filters{padding:17px}
+  .app-layout .filter-main{gap:16px 12px}
+  .app-layout .filter-main label,.app-layout .filter-extra label{font-size:13px}
+  .app-layout .filter-main .button{font-size:13px;min-height:44px}
+  .app-layout .filter-main>.icon-button{min-height:44px}
+  .app-layout .filter-extra{gap:17px 13px}
+  .app-layout .filter-extra select{font-size:14px}
+  .app-layout .filter-guidance{font-size:13px;line-height:1.75}
+  .app-layout .metric-picker{font-size:13px;align-items:flex-start;flex-wrap:wrap}
+  .app-layout .metric-picker select{width:100%;font-size:14px;min-height:42px}
+  .app-layout .trend-inspect :is(output,label){font-size:13px}
+  .app-layout .distribution-panel .status-legend{gap:12px 13px}
+  .app-layout .schedule-list{padding-left:18px;padding-right:18px}
+  .app-layout .schedule-item{gap:12px}
+  .app-layout .schedule-hour{font-size:14px;min-width:60px;padding-right:11px}
+  .app-layout .schedule-hour small{font-size:12px}
+  .app-layout .schedule-person strong{font-size:14px}
+  .app-layout .schedule-person small{font-size:13px}
+  .app-layout .schedule-item .badge{font-size:12px}
+  .app-layout .attention-item strong{font-size:14px}
+  .app-layout .attention-item small{font-size:13px}
+  .app-layout .finance-summary{gap:0;margin-left:18px;margin-right:18px}
+  .app-layout .finance-summary>div{column-gap:10px;padding:15px 0}
+  .app-layout .finance-summary :is(span,small){font-size:13px}
+  .app-layout .finance-summary strong{font-size:26px}
+  .app-layout .event-copy>strong{font-size:14px}
+  .app-layout .event-copy>span{font-size:13px}
+  .app-layout .event-copy>small{font-size:12px}
+  .app-layout .clinical-event>.badge{font-size:12px}
+  .app-layout .movement-pagination{padding:16px 18px;font-size:13px;gap:12px}
+  .app-layout :is(.movement-disclaimer,.dashboard-footnote){font-size:12px;line-height:1.8}
+  .app-layout .movement-fields{font-size:14px;gap:17px 12px;grid-template-columns:100px minmax(0,1fr)}
+  .app-layout .movement-fields dt{font-size:13px}
+  .app-layout .drawer-footer .button{font-size:13px}
+  .app-layout :is(.clinical-background,.clinical-entry>div:not(.panel-heading)){font-size:14px}
+  .app-layout .clinical-entry .panel-heading{padding:0 0 15px}
+  .app-layout .clinical-entry .panel-heading h3{font-size:16px}
+  .app-layout .calendar-grid:not(.day){display:flex;overflow:auto}
+  .app-layout .calendar-grid:not(.day) .calendar-day{min-width:156px;flex:1}
+  .app-layout .calendar-grid.day{display:block}
+  .app-layout .calendar-grid.day .calendar-day{min-width:0}
+  .app-layout .roles-grid{grid-template-columns:1fr}
+  .app-layout .role-card{padding:18px}
+  .app-layout .role-card h3{font-size:16px}
+  .app-layout .role-card .checkbox{font-size:13px}
+  .app-layout :is(.odontogram-footer>.muted,.tooth-legend>span,.odonto-orientation){font-size:12px}
+  .app-layout .dental-chart-group>h3{font-size:12px}
+  .app-layout .compare-grid{grid-template-columns:minmax(0,1fr)}
+  .app-layout .stage-list{padding-left:17px;padding-right:17px}
+  .app-layout .file-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-left:17px;padding-right:17px}
+  .app-layout .file-card figcaption{padding:12px}
+  .app-layout .file-card figcaption p{font-size:13px}
+  .app-layout .file-card figcaption small{font-size:12px}
+  .app-layout .orth-workspace label{font-size:13.5px}
+  .app-layout .orth-welcome h2{font-size:27px}
+  .app-layout .orth-welcome p{font-size:14px}
+  .app-layout .orth-metrics{gap:12px}
+  .app-layout .orth-metric{padding:17px 14px}
+  .app-layout .orth-metric>div{font-size:12px;gap:7px}
+  .app-layout .orth-metric>strong{font-size:31px}
+  .app-layout .orth-metric>small{font-size:12px;line-height:1.7}
+  .app-layout .orth-chart-grid{grid-template-columns:1fr}
+  .app-layout .orth-chart:last-child{grid-column:auto}
+  .app-layout .orth-section-heading{padding:18px;gap:12px;margin-bottom:17px}
+  .app-layout .orth-section-heading h3{font-size:16px}
+  .app-layout .orth-section-heading>p{font-size:13px;max-width:100%}
+  .app-layout .orth-section-heading>.muted{display:block;font-size:13px}
+  .app-layout .orth-filter{padding:17px;gap:17px 13px}
+  .app-layout .orth-filter-more .form-grid{grid-template-columns:1fr}
+  .app-layout .orth-workspace table{min-width:700px}
+  .app-layout .orth-cases table{min-width:1040px}
+  .app-layout .orth-case-heading{padding:20px 18px}
+  .app-layout .orth-case-heading h2{font-size:23px;overflow-wrap:anywhere}
+  .app-layout .orth-case-heading .orth-kicker{font-size:10px;letter-spacing:.07em}
+  .app-layout .orth-case-heading p,.app-layout .orth-case-heading p>strong{font-size:13px}
+  .app-layout .orth-case-heading-actions{gap:12px;flex-wrap:wrap}
+  .app-layout .orth-case-heading-actions .button{font-size:13px}
+  .app-layout .orth-case-heading-actions .orth-status{font-size:12px;padding:7px 9px}
+  .app-layout .orth-tabs>a{font-size:13px;padding:11px 13px}
+  .app-layout .orth-tabs>a>svg{width:17px;height:17px}
+  .app-layout .orth-facts{grid-template-columns:1fr 1fr;gap:22px 16px}
+  .app-layout .orth-facts dt{font-size:13px}
+  .app-layout .orth-facts dd{font-size:14px}
+  .app-layout :is(.orth-note p,.orth-info,.orth-info strong){font-size:14px}
+  .app-layout :is(.orth-note h3,.orth-info p,.orth-task small,.orth-callout,.orth-help){font-size:13px}
+  .app-layout .orth-task strong{font-size:14px}
+  .app-layout .orth-form-panel>summary{font-size:14px;line-height:1.6;padding:19px 18px}
+  .app-layout .orth-section-intro{flex-wrap:wrap}
+  .app-layout .orth-section-intro h3{font-size:20px}
+  .app-layout .orth-section-intro p{font-size:14px}
+  .app-layout .orth-section-intro>.button{font-size:13px;min-height:40px;padding:9px 12px}
+  .app-layout .orth-record>summary{gap:12px;flex-wrap:wrap}
+  .app-layout .orth-record>summary strong{font-size:14px}
+  .app-layout .orth-record>summary small{font-size:13px}
+  .app-layout .orth-record>summary .orth-status{font-size:12px;max-width:100%}
+  .app-layout .orth-definition-list dt{font-size:13px}
+  .app-layout .orth-definition-list dd{font-size:14px}
+  .app-layout .orth-plan-compare-tools{grid-template-columns:minmax(0,1fr)}
+  .app-layout .orth-plan-compare-tools :is(label,select){font-size:14px}
+  .app-layout .orth-plan-comparison{grid-template-columns:1fr;gap:14px}
+  .app-layout .orth-plan-comparison>div{padding:17px}
+  .app-layout .orth-plan-comparison h4{font-size:15px}
+  .app-layout .orth-plan-comparison .orth-definition-list dd{font-size:14px}
+  .app-layout .orth-local-filters{gap:17px 13px}
+  .app-layout .orth-local-filters label{font-size:13px}
+  .app-layout .orth-local-filters :is(input,select){font-size:14px}
+  .app-layout .orth-timeline-item h4{font-size:15px}
+  .app-layout .orth-timeline-item header p{font-size:13px}
+  .app-layout .orth-timeline-item .orth-kicker{font-size:10px}
+  .app-layout .orth-timeline-item>header{flex-wrap:wrap}
+  .app-layout .orth-control-details .orth-note h3{font-size:13px}
+  .app-layout .orth-control-details .orth-note p{font-size:14px}
+  .app-layout .orth-control-footer{font-size:13px;line-height:1.75}
+  .app-layout .orth-dropzone{padding:17px}
+  .app-layout .orth-dropzone input{font-size:13px;overflow:hidden}
+  .app-layout .orth-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .app-layout .orth-photo-card figcaption{padding:12px 10px;gap:8px}
+  .app-layout .orth-photo-card figcaption strong{font-size:13px}
+  .app-layout .orth-photo-card figcaption :is(small,p){font-size:12px}
+  .app-layout .orth-photo-card .orth-link{font-size:13px}
+  .app-layout .orth-photo-select{font-size:12px!important;top:7px;left:7px;padding:5px 7px}
+  .app-layout .orth-compare-side{grid-template-columns:1fr;gap:16px}
+  .app-layout .orth-compare-side img{height:230px}
+  .app-layout .orth-compare-side figcaption{font-size:13px}
+  .app-layout .orth-comparison-modes{flex-wrap:wrap}
+  .app-layout .orth-comparison-modes .button{font-size:13px;padding:9px 11px;white-space:normal}
+  .app-layout .orth-comparator>.orth-help{font-size:13px;line-height:1.75}
+  .app-layout .orth-slider-captions{font-size:12px;line-height:1.7}
+  .app-layout .orth-document-list strong{font-size:14px}
+  .app-layout .orth-document-list small{font-size:13px}
+  .app-layout .orth-report-sections legend{font-size:14px;line-height:1.7}
+  .app-layout .orth-assistant-content{font-size:14px}
+  .app-layout .orth-question{font-size:13px;line-height:1.6}
+  .app-layout .orth-lightbox .orth-dialog-heading h3{font-size:15px}
+  .app-layout .orth-lightbox>.muted{font-size:13px}
+  .app-layout .orth-workspace .orth-check{font-size:13px!important}
+  .auth-page .auth-form{padding:22px;gap:26px;background:linear-gradient(150deg,#eaf3f9,#edf7f6)}
+  .auth-page .auth-card{padding:27px 24px;max-width:440px;border-radius:17px}
+  .auth-page .auth-brand .brand{gap:13px;flex-wrap:nowrap}
+  .auth-page .auth-brand .brand img.brand-logo{width:75px;height:80px}
+  .auth-page .auth-brand .brand .brand-text{font-size:22px}
+  .auth-page .auth-card h2{font-size:29px}
+  .auth-page .auth-card>.muted{font-size:14px}
+  .auth-page .auth-card .between>a{font-size:13px}
+}
+@media(max-width:370px){
+  .app-layout .workspace{padding-left:11px;padding-right:11px}
+  .app-layout .page-heading h1{font-size:26px}
+  .app-layout .header-location strong{font-size:12px;max-width:140px}
+  .app-layout .header-right{gap:3px}
+  .app-layout .premium-stats{grid-template-columns:1fr;gap:13px}
+  .app-layout .metric-card{padding:18px}
+  .app-layout .metric-card .between{font-size:13px}
+  .app-layout .metric-card>strong{font-size:33px}
+  .app-layout .metric-bottom small{font-size:13px}
+  .app-layout .filter-extra{grid-template-columns:1fr}
+  .app-layout .form-panel{padding:18px!important}
+  .app-layout .button{white-space:normal}
+  .app-layout .actions>.button{max-width:100%}
+  .app-layout .movement-fields{grid-template-columns:1fr;gap:5px}
+  .app-layout .movement-fields dd{margin-bottom:14px}
+  .app-layout .orth-metrics{grid-template-columns:1fr}
+  .app-layout .orth-metric{padding:18px}
+  .app-layout .orth-metric>div{font-size:13px}
+  .app-layout .orth-metric>small{font-size:13px}
+  .app-layout .orth-facts{grid-template-columns:1fr;gap:20px}
+  .app-layout .orth-gallery,.app-layout .file-gallery{grid-template-columns:1fr}
+  .app-layout .orth-photo-open{height:190px}
+  .app-layout .orth-photo-card figcaption{padding:14px}
+  .app-layout .orth-local-filters{grid-template-columns:1fr}
+  .app-layout .orth-filter{grid-template-columns:1fr}
+  .app-layout .orth-filter>.button{grid-column:1}
+  .auth-page .auth-form{padding:18px 13px}
+  .auth-page .auth-card{padding:23px 18px}
+  .auth-page .auth-brand .brand{gap:10px}
+  .auth-page .auth-brand .brand img.brand-logo{width:62px;height:66px}
+  .auth-page .auth-brand .brand .brand-text{font-size:20px}
+  .auth-page .auth-card h2{font-size:27px}
+}
+@media(prefers-reduced-motion:reduce){
+  :is(.app-layout,.auth-page),:is(.app-layout,.auth-page) *,
+  :is(.app-layout,.auth-page) *::before,:is(.app-layout,.auth-page) *::after,
+  body:has(>.app-layout,>.auth-page) dialog[open]{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .app-layout :is(.button:hover,.metric-card:hover,.orth-metric:hover){transform:none}
+}
+@media print{
+  .app-layout{color:#000;font-size:12px}
+  .app-layout .app-main{margin-left:0;background:#fff}
+  .app-layout .workspace{padding:0;animation:none}
+  .app-layout :is(.panel,.stat,.metric-card,.orth-metric,.orth-case-heading){box-shadow:none;background:#fff;color:#000;border-color:#bbb}
+  .app-layout :is(.panel-heading,.orth-section-heading,table th){background:#f5f5f5;color:#000}
+  .app-layout :is(.metric-income,.orth-metric-featured) :is(strong,div,small){color:#000}
+  .app-layout :is(table td,table td strong,table td small){font-size:11px;color:#000;padding:8px}
+  .app-layout .page-heading{padding-bottom:12px;margin-bottom:18px}
+  .app-layout .table-wrap table{min-width:0}
+  .app-layout .prescription :is(.prescription-clinic-info,.prescription-clinic-info>strong,.prescription-patient>div>span,.prescription-section>span,.prescription-title p,.prescription-item p,.prescription-sign-line span,.prescription-sign-line small){font-size:11px}
+}
